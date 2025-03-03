@@ -6,15 +6,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class GreetingService {
 
-    public Greeting getGreeting() {
-        return new Greeting("Hello World");
-    }
+    public Greeting getGreeting(String firstName, String lastName) {
+        if ((firstName == null || firstName.isBlank()) && (lastName == null || lastName.isBlank())) {
+            return new Greeting("Hello World");
+        }
 
-    public Greeting postGreeting(Greeting greeting) {
-        return new Greeting("Received POST request with message: " + greeting.getMessage());
-    }
+        String fullName = (firstName != null ? firstName : "") +
+                (lastName != null ? " " + lastName : "");
 
-    public Greeting putGreeting(Greeting greeting) {
-        return new Greeting("Received PUT request with message: " + greeting.getMessage());
+        return new Greeting("Hello " + fullName.trim());
     }
 }

@@ -15,17 +15,9 @@ public class GreetingController {
     }
 
     @GetMapping
-    public Greeting getGreeting() {
-        return greetingService.getGreeting();
-    }
-
-    @PostMapping
-    public Greeting postGreeting(@RequestBody Greeting greeting) {
-        return greetingService.postGreeting(greeting);
-    }
-
-    @PutMapping
-    public Greeting putGreeting(@RequestBody Greeting greeting) {
-        return greetingService.putGreeting(greeting);
+    public Greeting getGreeting(
+            @RequestParam(required = false) String firstName,
+            @RequestParam(required = false) String lastName) {
+        return greetingService.getGreeting(firstName, lastName);
     }
 }
