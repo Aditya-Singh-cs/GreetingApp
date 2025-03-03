@@ -4,7 +4,7 @@ import com.example.GreetingApp.model.Greeting;
 import com.example.GreetingApp.repository.GreetingRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Optional;
 
 @Service
 public class GreetingService {
@@ -29,7 +29,12 @@ public class GreetingService {
         return greetingRepository.save(greeting);
     }
 
-    public List<Greeting> getAllGreetings() {
-        return greetingRepository.findAll();
+    public Greeting getGreetingById(Long id) {
+        Optional<Greeting> greeting = greetingRepository.findById(id);
+        return greeting.orElseThrow(() -> new RuntimeException("Greeting not found with id: " + id));
+    }
+
+    public Greeting saveGreeting(Greeting greeting) {
+        return greetingRepository.save(greeting);
     }
 }
