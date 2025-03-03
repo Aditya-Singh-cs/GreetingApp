@@ -37,4 +37,9 @@ public class GreetingController {
     public Greeting saveGreeting(@RequestBody Greeting greeting) {
         return greetingService.saveGreeting(greeting);
     }
+
+    @PutMapping("/{id}")
+    public Greeting updateGreeting(@PathVariable Long id, @RequestBody Greeting greeting) {
+        return greetingService.updateGreeting(id, greeting);
+    }
 }

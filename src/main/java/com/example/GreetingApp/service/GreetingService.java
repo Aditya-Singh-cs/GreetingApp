@@ -42,4 +42,11 @@ public class GreetingService {
     public List<Greeting> getAllGreetings() {
         return greetingRepository.findAll();
     }
+
+    public Greeting updateGreeting(Long id, Greeting newGreeting) {
+        return greetingRepository.findById(id).map(existingGreeting -> {
+            existingGreeting.setMessage(newGreeting.getMessage());
+            return greetingRepository.save(existingGreeting);
+        }).orElseThrow(() -> new RuntimeException("Greeting not found with id: " + id));
+    }
 }
