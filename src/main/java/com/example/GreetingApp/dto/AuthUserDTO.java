@@ -55,7 +55,8 @@ public class AuthUserDTO {
     @NotBlank(message = "Email cannot be empty")
     private String email;
 
-    @Pattern(regexp = "^(?=.[A-Z])(?=.\\d)(?=.[@#$%^&()\\-+=])[A-Za-z\\d@#$%^&*()\\-+=]{8,}$",
+    @Pattern(regexp = "^(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&()\\-+=])[A-Za-z\\d@#$%^&*()\\-+=]{8,}$",
             message = "Password must contain at least 1 uppercase letter, 1 special character, 1 number, and be at least 8 characters long.")
+
     private String password;
 }
