@@ -2,6 +2,7 @@ package com.example.GreetingApp.controller;
 
 import com.example.GreetingApp.model.Greeting;
 import com.example.GreetingApp.service.GreetingService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,8 +11,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/greeting")
 public class GreetingController {
-
-    private final GreetingService greetingService;
+    @Autowired
+    GreetingService greetingService;
 
     public GreetingController(GreetingService greetingService) {
         this.greetingService = greetingService;

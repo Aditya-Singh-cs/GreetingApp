@@ -53,4 +53,10 @@ public class EmailService {
 
         mailSender.send(message);
     }
+
+    public void sendPasswordResetEmail(String to) {
+        sendSimpleEmail(to, "Password Changed",
+                "Your password has been successfully updated.");
+    }
+
 }

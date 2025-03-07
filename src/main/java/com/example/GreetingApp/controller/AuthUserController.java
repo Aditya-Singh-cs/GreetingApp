@@ -1,5 +1,6 @@
 package com.example.GreetingApp.controller;
 
+import java.util.*;
 import com.example.GreetingApp.dto.AuthUserDTO;
 import com.example.GreetingApp.dto.LoginDTO;
 import com.example.GreetingApp.service.AuthenticationService;
@@ -59,4 +60,21 @@ public class AuthUserController {
         String token = authenticationService.loginUser(loginDTO);
         return ResponseEntity.ok().body("{\"message\": \"Login successful!\", \"token\": \"" + token + "\"}");
     }
+
+    @PutMapping("/forgotPassword/{email}")
+    public ResponseEntity<String> forgotPassword(@PathVariable String email, @RequestBody Map<String, String> requestBody) {
+        String newPassword = requestBody.get("password");
+        String response = authenticationService.forgotPassword(email, newPassword);
+        return ResponseEntity.ok().body("{\"message\": \"" + response + "\"}");
+    }
+
+    @PutMapping("/resetPassword/{email}")
+    public ResponseEntity<String> resetPassword(
+            @PathVariable String email,
+            @RequestParam String currentPassword,
+            @RequestParam String newPassword) {
+        String response = authenticationService.resetPassword(email, currentPassword, newPassword);
+        return ResponseEntity.ok().body("{\"message\": \"" + response + "\"}");
+    }
+
 }

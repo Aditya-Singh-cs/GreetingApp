@@ -25,6 +25,9 @@ public class AuthenticationService {
     @Autowired
     private JwtUtil jwtUtil;
 
+    @Autowired
+    private EmailService emailService;
+
     public String registerUser(AuthUserDTO authUserDTO) {
         if (authUserRepository.existsByEmail(authUserDTO.getEmail())) {
             throw new RuntimeException("Email is already in use.");
@@ -54,4 +57,38 @@ public class AuthenticationService {
 
         return jwtUtil.generateToken(user.getEmail());
     }
+
+    public String forgotPassword(String email, String newPassword) {
+        Optional<AuthUser> userOptional = authUserRepository.findByEmail(email);
+        if (userOptional.isEmpty()) {
+            return "Sorry! We cannot find the user email: " + email;
+        }
+
+        AuthUser user = userOptional.get();
+        user.setPassword(passwordEncoder.encode(newPassword));
+        authUserRepository.save(user);
+
+        emailService.sendSimpleEmail(email, "Password Changed",
+                "Your password has been successfully changed.");
+
+        return "Password has been changed successfully!";
+    }
+
+    public String resetPassword(String email, String currentPassword, String newPassword) {
+        Optional<AuthUser> userOptional = authUserRepository.findByEmail(email);
+        if (userOptional.isEmpty()) {
+            return "User not found with email: " + email;
+        }
+
+        AuthUser user = userOptional.get();
+        if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
+            return "Current password is incorrect!";
+        }
+
+        user.setPassword(passwordEncoder.encode(newPassword));
+        authUserRepository.save(user);
+
+        return "Password reset successfully!";
+    }
+
 }
